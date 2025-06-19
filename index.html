@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Угадай число</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      font-size: 20px;
+      margin: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Угадай число от 1 до 5</h1>
+  <div id="buttons"></div>
+  <p id="result"></p>
+
+  <script>
+    const secretNumber = Math.floor(Math.random() * 5) + 1;
+
+    const buttonsDiv = document.getElementById('buttons');
+    const resultP = document.getElementById('result');
+
+    for (let i = 1; i <= 5; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.onclick = () => {
+        if (i === secretNumber) {
+          resultP.textContent = 'Правильно! Ты угадал!';
+        } else {
+          resultP.textContent = `Нет, я загадал ${secretNumber}`;
+        }
+      };
+      buttonsDiv.appendChild(btn);
+    }
+  </script>
+
+</body>
+</html>
