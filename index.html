@@ -2,45 +2,95 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Угадай число</title>
+  <title>Не нажми не ту кнопку!</title>
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
       padding: 50px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      color: #333;
+    }
+    #buttons {
+      margin: 30px 0;
     }
     button {
       font-size: 20px;
       margin: 10px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      border: none;
+      background-color: #2196F3;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #0b7dda;
+    }
+    #result {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 30px;
+    }
+    #resetBtn {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
       padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4CAF50;
+      color: white;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <h1>Угадай число от 1 до 5</h1>
+  <h1>Не нажми не ту кнопку!</h1>
   <div id="buttons"></div>
-  <p id="result"></p>
+  <div id="result"></div>
+  <button id="resetBtn" onclick="startGame()">Играть снова</button>
 
   <script>
-    const secretNumber = Math.floor(Math.random() * 5) + 1;
-
     const buttonsDiv = document.getElementById('buttons');
-    const resultP = document.getElementById('result');
+    const resultDiv = document.getElementById('result');
+    const resetBtn = document.getElementById('resetBtn');
 
-    for (let i = 1; i <= 5; i++) {
-      const btn = document.createElement('button');
-      btn.textContent = i;
-      btn.onclick = () => {
-        if (i === secretNumber) {
-          resultP.textContent = 'Правильно! Ты угадал!';
-        } else {
-          resultP.textContent = `Нет, я загадал ${secretNumber}`;
-        }
-      };
-      buttonsDiv.appendChild(btn);
+    function startGame() {
+      resultDiv.textContent = '';
+      resetBtn.style.display = 'none';
+      buttonsDiv.innerHTML = '';
+
+      const bomb = Math.floor(Math.random() * 5) + 1;
+
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = `Кнопка ${i}`;
+        btn.onclick = () => {
+          if (i === bomb) {
+            resultDiv.textContent = '💥 Бомба! Ты проиграл!';
+          } else {
+            resultDiv.textContent = '✅ Ты выжил! Это была безопасная кнопка.';
+          }
+          disableButtons();
+          resetBtn.style.display = 'inline-block';
+        };
+        buttonsDiv.appendChild(btn);
+      }
     }
+
+    function disableButtons() {
+      const allButtons = buttonsDiv.querySelectorAll('button');
+      allButtons.forEach(btn => btn.disabled = true);
+    }
+
+    // Запуск игры при загрузке
+    startGame();
   </script>
 
 </body>
