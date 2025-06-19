@@ -31,10 +31,14 @@
       background-color: #0b7dda;
     }
     #result {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
       color: #333;
-      margin-top: 30px;
+      margin-top: 20px;
+    }
+    #score {
+      font-size: 20px;
+      margin-top: 10px;
     }
     #resetBtn {
       display: none;
@@ -52,6 +56,7 @@
 <body>
 
   <h1>Не нажми не ту кнопку!</h1>
+  <div id="score">Очки: 0</div>
   <div id="buttons"></div>
   <div id="result"></div>
   <button id="resetBtn" onclick="startGame()">Играть снова</button>
@@ -60,6 +65,8 @@
     const buttonsDiv = document.getElementById('buttons');
     const resultDiv = document.getElementById('result');
     const resetBtn = document.getElementById('resetBtn');
+    const scoreDiv = document.getElementById('score');
+    let score = 0;
 
     function startGame() {
       resultDiv.textContent = '';
@@ -74,8 +81,12 @@
         btn.onclick = () => {
           if (i === bomb) {
             resultDiv.textContent = '💥 Бомба! Ты проиграл!';
+            score = 0;
+            scoreDiv.textContent = `Очки: ${score}`;
           } else {
-            resultDiv.textContent = '✅ Ты выжил! Это была безопасная кнопка.';
+            resultDiv.textContent = '✅ Безопасно! +1 очко';
+            score++;
+            scoreDiv.textContent = `Очки: ${score}`;
           }
           disableButtons();
           resetBtn.style.display = 'inline-block';
@@ -89,7 +100,6 @@
       allButtons.forEach(btn => btn.disabled = true);
     }
 
-    // Запуск игры при загрузке
     startGame();
   </script>
 
